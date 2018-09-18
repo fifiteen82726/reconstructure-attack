@@ -57,7 +57,7 @@ class Reconstruction:
 
       if(self.authenticate(guess_dataset)):
         print "Reconstrcture Dataset: " + str(guess_dataset)
-        return True
+        return guess_dataset
 
     print "Fail Attack!"
     return False
@@ -72,6 +72,13 @@ class Reconstruction:
           return False # Rule out
     return True
 
+  def compute_hamming_distance(self, guess_dataset):
+    result = 0
+    for i in range(n):
+      if(guess_dataset[i] != self.real_dataset[i]):
+        result += 1
+    return result
+
 n = 10
 e = math.sqrt(n)
 
@@ -81,6 +88,7 @@ print "E = " + str(e)
 for i in range(10):
   print "======================= Test " + str(i+1) + " ============================"
   reconstruction1 = Reconstruction(n, e)
-  reconstruction1.attack()
+  guess_dataset = reconstruction1.attack()
+  if(guess_dataset):
+    print "Successfully attack, the hamming distance is " + str(reconstruction1.compute_hamming_distance(guess_dataset))
   print "\n"
-
